@@ -1,6 +1,7 @@
 package com.ahmetsudeys.fiyatdedektifi;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.productName.setText(product.getName()); // Ürün ismi
         holder.productPrice.setText(product.getPrice()); // Ürün fiyatı
 
+        // Eski fiyat varsa göster, yoksa gizle
+        if (product.getOldPrice() != null && !product.getOldPrice().isEmpty()) {
+            holder.productOldPrice.setText(product.getOldPrice());
+            holder.productOldPrice.setVisibility(View.VISIBLE);
+            holder.productOldPrice.setPaintFlags(holder.productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            holder.productOldPrice.setVisibility(View.GONE);
+        }
+
         // Resmi Glide ile yükle
         Glide.with(context)
                 .load(product.getImageUrl()) // Resim URL'sini kullanarak yükle
@@ -57,12 +67,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ImageView productImage;
         public TextView productName;
         public TextView productPrice;
+        public TextView productOldPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.productImage);  // Ürün resmi
             productName = itemView.findViewById(R.id.productName);    // Ürün ismi
             productPrice = itemView.findViewById(R.id.productPrice);  // Ürün fiyatı
+            productOldPrice = itemView.findViewById(R.id.productOldPrice);  // Eski fiyat
         }
     }
 }

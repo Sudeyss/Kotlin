@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 // Ürün fiyatlarını seç
                 Elements newPrices = doc.select("div.new-price");
 
+                // Eski fiyatları seç (oldPrice)
+                Elements oldPrices = doc.select("div.old-price"); // Örneğin oldPrice sınıfı
+
                 // Ürün resimlerini seç
                 Elements productImages = doc.select("div.product-image div.image img");
 
@@ -100,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
                     String newPrice = newPrices.get(i).text();
                     String productImageUrl = productImages.get(i).attr("src");
 
+                    String oldPrice = oldPrices.size() > i ? oldPrices.get(i).text() : null;
+
                     // Her ürün için bir Product nesnesi oluştur
-                    Product product = new Product(productName, newPrice, productImageUrl);
+                    Product product = new Product(productName, newPrice, productImageUrl, oldPrice);
 
                     // Ürünü listeye ekle
                     productList.add(product);
